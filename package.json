@@ -1,0 +1,27 @@
+{
+  "name": "@obc/utils",
+  "version": "0.0.1",
+  "description": "",
+  "author": "Hamed Motalebi",
+  "private": true,
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "keywords": [
+    "utils"
+  ],
+  "scripts": {
+    "rm": "rm -rf ./dist",
+    "build": "npm run rm; npm run build-ts && echo Build finished!",
+    "build-ts": "cd src; tsc",
+    "build-watch": "tsc -w",
+    "test": "npm run build; jest --config jest.json --silent --runInBand --verbose",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --silent --runInBand --verbose --config jest.json"
+  },
+  "devDependencies": {
+    "class-validator": "^0.14.0",
+    "jalali-moment": "^3.3.11",
+    "typescript": "^4.9.5"
+  },
+  "dependencies": {}
+}
