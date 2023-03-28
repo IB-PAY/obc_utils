@@ -3,10 +3,13 @@
   "version": "0.0.2",
   "description": "",
   "author": "Hamed Motalebi",
-  "private": true,
-  "license": "MIT",
+  "license": "ISC",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "repository": {
+    "type": "private",
+    "url": "git@github.com:mimani68/obc_utils.git"
+  },
   "keywords": [
     "utils"
   ],
@@ -22,6 +25,5 @@
     "class-validator": "^0.14.0",
     "jalali-moment": "^3.3.11",
     "typescript": "^4.9.5"
-  },
-  "dependencies": {}
+  }
 }
