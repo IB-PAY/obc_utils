@@ -20,4 +20,5 @@ __exportStar(require("./removeArabicCharactersFromObject"), exports);
 __exportStar(require("./removeArabicNumbers"), exports);
 __exportStar(require("./removeWhitespaces"), exports);
 __exportStar(require("./stringTools"), exports);
+__exportStar(require("./trimString"), exports);
 //# sourceMappingURL=index.js.map

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isFunction = exports.isValue = exports.isDate = exports.isNumeric = exports.isBoolean = exports.isTrueFull = exports.isTrue = exports.isFalse = exports.isEqual = exports.isNumber = exports.isObjectFull = exports.isObject = exports.hasLength = exports.isNil = exports.isNull = exports.isUndefined = void 0;
+exports.isFunction = exports.isValue = exports.isDate = exports.isNumeric = exports.isBoolean = exports.isTrueFull = exports.isTrue = exports.isFalse = exports.isEqual = exports.isNumber = exports.isObjectFull = exports.isObject = exports.hasLength = exports.isNill = exports.isNil = exports.isNull = exports.isUndefined = void 0;
 const objKeys_1 = require("../object/objKeys");
 const string_1 = require("./string");
 const isUndefined = (val) => typeof val === 'undefined';
@@ -9,6 +9,8 @@ const isNull = (val) => val === null;
 exports.isNull = isNull;
 const isNil = (val) => (0, exports.isUndefined)(val) || (0, exports.isNull)(val);
 exports.isNil = isNil;
+const isNill = (...args) => args.some((val) => (0, exports.isNil)(val));
+exports.isNill = isNill;
 const hasLength = (val) => val.length > 0;
 exports.hasLength = hasLength;
 const isObject = (val) => typeof val === 'object' && !(0, exports.isNull)(val);
