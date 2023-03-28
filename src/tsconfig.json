@@ -13,5 +13,5 @@
 		"incremental": true,
 		"resolveJsonModule": true
 	},
-	"exclude": ["node_modules", "dist", "database_scripts"]
+	"exclude": ["node_modules", "dist"]
 }

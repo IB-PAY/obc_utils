@@ -1,0 +1,1 @@
+{"version":3,"file":"removeWhitespaces.js","sourceRoot":"","sources":["../../src/string/removeWhitespaces.ts"],"names":[],"mappings":";;;AAAA,SAAgB,iBAAiB,CAAC,KAAa;IAC9C,IAAI,OAAO,KAAK,KAAK,QAAQ,EAAE;QAC9B,KAAK,GAAG,KAAK,CAAC,OAAO,CACpB,6LAA6L,EAC7L,EAAE,CACF,CAAC;KACF;IAED,OAAO,KAAK,CAAC;AACd,CAAC;AATD,8CASC"}

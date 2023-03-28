@@ -1,0 +1,16 @@
+export declare const isUndefined: (val: any) => boolean;
+export declare const isNull: (val: any) => boolean;
+export declare const isNil: (val: any) => boolean;
+export declare const hasLength: (val: any) => boolean;
+export declare const isObject: (val: any) => boolean;
+export declare const isObjectFull: (val: any) => boolean;
+export declare const isNumber: (val: any) => boolean;
+export declare const isEqual: (val: any, eq: any) => boolean;
+export declare const isFalse: (val: any) => boolean;
+export declare const isTrue: (val: any) => boolean;
+export declare const isTrueFull: (val: any) => boolean;
+export declare const isBoolean: (val: any) => boolean;
+export declare const isNumeric: (val: any) => boolean;
+export declare const isDate: (val: any) => val is Date;
+export declare const isValue: (val: any) => boolean;
+export declare const isFunction: (val: any) => boolean;
