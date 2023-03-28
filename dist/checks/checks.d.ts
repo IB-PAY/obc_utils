@@ -1,6 +1,7 @@
 export declare const isUndefined: (val: any) => boolean;
 export declare const isNull: (val: any) => boolean;
 export declare const isNil: (val: any) => boolean;
+export declare const isNill: (...args: any) => boolean;
 export declare const hasLength: (val: any) => boolean;
 export declare const isObject: (val: any) => boolean;
 export declare const isObjectFull: (val: any) => boolean;
