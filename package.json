@@ -22,8 +22,12 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --silent --runInBand --verbose --config jest.json"
   },
   "devDependencies": {
+    "@types/node": "^18.15.11",
     "class-validator": "^0.14.0",
     "jalali-moment": "^3.3.11",
     "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "@sentry/node": "^7.45.0"
   }
 }
