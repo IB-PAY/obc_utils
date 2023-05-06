@@ -17,7 +17,7 @@ export declare class DebugRequestMeta {
     date?: string;
     tracer: any;
 }
-export declare function Debug<T>(message: string, loggingOptions: loggingOptions, meta?: Partial<DebugRequestMeta & T>): void;
+export declare function Debug<T>(message: string, debugValues: any, meta?: Partial<DebugRequestMeta & T>): void;
 export declare class ErrorRequestMeta {
     TID: string;
     className?: string;

@@ -6,7 +6,10 @@ import { Debug, Error as ErrorLog, Info } from '../dist'
         TID: "25852388-ebd8-11ed-94f7-d3c91de140b8"
     } )
 
-    Debug<{ func: string }>("Show breakpoint for remote debugging", {}, {
+    Debug<{ func: string }>("Show breakpoint for remote debugging", {
+        user: 1,
+        organization: 2,
+    }, {
         TID: "25852388-ebd8-11ed-94f7-d3c91de140b8"
     } )
     

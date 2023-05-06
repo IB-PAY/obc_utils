@@ -52,7 +52,7 @@ export class DebugRequestMeta {
 /**
  * 
  * @param message 
- * @param loggingOptions 
+ * @param debugValues 
  * @param meta 
  * 
  * @example 
@@ -66,12 +66,12 @@ export class DebugRequestMeta {
  *      tracer: new SentrySpan()
  *  } )
  */
-export function Debug<T>(message: string, loggingOptions: loggingOptions, meta?: Partial<DebugRequestMeta & T>) {
-    let debugPayload: payload | loggingOptions | Partial<DebugRequestMeta & T> = {
+export function Debug<T>(message: string, debugValues: any, meta?: Partial<DebugRequestMeta & T>) {
+    let debugPayload: payload | Partial<DebugRequestMeta & T> | { debug: any } = {
         level: "DEBUG",
-        TID: meta?.TID || loggingOptions?.TID,
+        TID: meta?.TID || debugValues?.TID,
         message,
-        ...loggingOptions,
+        debug: debugValues,
         os: hostname(),
         os_release: release(),
         date: new Date().toISOString()

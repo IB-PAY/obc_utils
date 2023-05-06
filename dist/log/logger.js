@@ -28,8 +28,16 @@ exports.Info = Info;
 class DebugRequestMeta {
 }
 exports.DebugRequestMeta = DebugRequestMeta;
-function Debug(message, loggingOptions, meta) {
-    let debugPayload = Object.assign(Object.assign({ level: "DEBUG", TID: (meta === null || meta === void 0 ? void 0 : meta.TID) || (loggingOptions === null || loggingOptions === void 0 ? void 0 : loggingOptions.TID), message }, loggingOptions), { os: (0, os_1.hostname)(), os_release: (0, os_1.release)(), date: new Date().toISOString() });
+function Debug(message, debugValues, meta) {
+    let debugPayload = {
+        level: "DEBUG",
+        TID: (meta === null || meta === void 0 ? void 0 : meta.TID) || (debugValues === null || debugValues === void 0 ? void 0 : debugValues.TID),
+        message,
+        debug: debugValues,
+        os: (0, os_1.hostname)(),
+        os_release: (0, os_1.release)(),
+        date: new Date().toISOString()
+    };
     logging(debugPayload);
 }
 exports.Debug = Debug;
