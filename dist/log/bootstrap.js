@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loggerBootstrap = exports.allowRemoteLogStorage = void 0;
+exports.loggerBootstrap = void 0;
 const process_1 = require("process");
 const Sentry = require("@sentry/node");
-exports.allowRemoteLogStorage = process_1.env.REMOTE_ERROR_LOG_STORAGE === 'true';
+const config_1 = require("./config");
 let sentryAddress = process_1.env.SENTRY_URL;
 function loggerBootstrap() {
-    if (exports.allowRemoteLogStorage) {
+    if (config_1.allowRemoteLogStorage) {
         if (sentryAddress) {
             Sentry.init({
                 dsn: sentryAddress,
@@ -15,10 +15,10 @@ function loggerBootstrap() {
         else {
             console.log("[INFO] Sentry Address is not set. Sentry will not be enabled.");
         }
-        console.log("[INFO] Remote debuging <Sentry> Enabled");
+        console.log("[INFO] Remote debugging <Sentry> Enabled");
     }
     else {
-        console.log("[INFO] Remote debuging <Sentry> Disabled");
+        console.log("[INFO] Remote debugging <Sentry> Disabled");
     }
 }
 exports.loggerBootstrap = loggerBootstrap;

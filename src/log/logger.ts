@@ -1,7 +1,29 @@
+import { hostname, release } from 'os'
 import * as Sentry from '@sentry/node';
-import { allowRemoteLogStorage, loggerBootstrap } from './bootstrap'
+import { loggerBootstrap } from './bootstrap'
+import { allowRemoteLogStorage, logFormat } from './config';
 
 loggerBootstrap()
+
+export class loggingOptions {
+    TID?: string;
+    class?: string;
+	function?: string;
+    path?: string;
+    input?: any;
+    stack?: any;
+    date?: string;
+}
+
+interface payload {
+    TID?: string;
+    level?: "INFO" | "DEBUG" | "ERROR";
+    message?: string;
+    os?: string;
+    os_release?: string;
+    date?: string;
+    meta?: any;
+}
 
 export class InfoRequestMeta {
 	TID: string;
@@ -9,28 +31,52 @@ export class InfoRequestMeta {
 }
 
 export function Info<T>(message: string, meta?: Partial<InfoRequestMeta & T>) {
-    let msg = ''
-    if ( meta?.TID ) {
-        msg += `[INFO] tid=${ meta.TID } ${ message }`
-    } else {
-        msg += `[INFO] ${ message }`
-    }
-    console.log(msg);
+    const jsonError: payload | loggingOptions | Partial<DebugRequestMeta & T> = {
+        level: "INFO",
+        TID: meta?.TID,
+        message,
+        meta,
+        os: hostname(),
+        os_release: release(),
+        date: new Date().toISOString()
+    };
+    logging(jsonError)
 }
 
 export class DebugRequestMeta {
 	TID: string;
-    date?: Date
+    date?: string;
+    tracer: any;
 }
 
-export function Debug<T>(message: string, data: any, meta?: Partial<DebugRequestMeta & T>) {
-    let payload = {
+/**
+ * 
+ * @param message 
+ * @param loggingOptions 
+ * @param meta 
+ * 
+ * @example 
+ *  Debug("After calculating incoming value", {
+ *      class: BusinessClassLogic.name,
+ *      function: FunctionLogic.name,
+ *      input: { amount, userId },
+ *      path: "src/service/payment.ts",
+ *  }, {
+ *      TID: "00607dee-ebda-11ed-a42c-1fdfc490efd3",
+ *      tracer: new SentrySpan()
+ *  } )
+ */
+export function Debug<T>(message: string, loggingOptions: loggingOptions, meta?: Partial<DebugRequestMeta & T>) {
+    let debugPayload: payload | loggingOptions | Partial<DebugRequestMeta & T> = {
+        level: "DEBUG",
+        TID: meta?.TID || loggingOptions?.TID,
         message,
-        TID: meta?.TID,
-        data,
-        meta
+        ...loggingOptions,
+        os: hostname(),
+        os_release: release(),
+        date: new Date().toISOString()
     }
-    console.log(JSON.stringify(payload));
+    logging(debugPayload)
 }
 
 export class ErrorRequestMeta {
@@ -40,39 +86,46 @@ export class ErrorRequestMeta {
     date?: Date
 }
 
-
-export function Error<T>(message: string, errorObject: ErrorConstructor | any, meta?: Partial<ErrorRequestMeta & T>) {
-    let msg = ''
-    if ( meta?.TID ) {
-        msg += `[ERROR] tid=${ meta?.TID || "*"} ${ message }`
-    } else {
-        msg += `[ERROR] ${ message }`
-    }
-    if ( Object.keys(errorObject).length >= 1 ) {
-        msg += ` ` + JSON.stringify(errorObject)
-    }
-    if ( errorObject?.message ) {
-        msg += ` ` + errorToJson(errorObject)
-    }
-    if ( allowRemoteLogStorage ) {
-        const jsonError = {
-            name: errorObject.name,
-            message: errorObject.message,
-            stack: errorObject.stack,
-            sentry: true
-          };
-        
-        Sentry.captureMessage(JSON.stringify(jsonError));
-    }
-
-    console.log(msg);
+/**
+ * 
+ * @param message 
+ * @param errorOptions 
+ * @param meta 
+ * 
+ * @example 
+ *  ErrorLog("Database is Down", {
+ *      error: new Error("Database connection")
+ *      class: BusinessClassLogic.name,
+ *      function: FunctionLogic.name,
+ *      input: { value },
+ *      path: "src/log.ts",
+ *  }, {
+ *      TID: "25852388-ebd8-11ed-94f7-d3c91de140b8",
+ *      tracer: new SentrySpan()
+ *  } )
+ */
+export function Error<T>(message: string, errorOptions: Partial<loggingOptions & {error: any}>, meta?: Partial<ErrorRequestMeta & T>) {
+    const jsonError: payload | loggingOptions | Partial<DebugRequestMeta & T> = {
+        level: "ERROR",
+        TID: meta?.TID || errorOptions?.TID,
+        message,
+        ...errorOptions,
+        meta,
+        os: hostname(),
+        os_release: release(),
+        date: new Date().toISOString()
+    };
+    logging(jsonError)
 }
 
-function errorToJson(error: any) {
-    var obj = {
-      name: error.name,
-      message: error.message,
-      stack: error.stack
-    };
-    return JSON.stringify(obj);
-  }
+function logging(logObject: any) {
+    if ( allowRemoteLogStorage ) {    
+        Sentry.captureMessage(JSON.stringify(logObject));
+    }
+    if ( logFormat !== 'json' ) {
+        let message = `[${ logObject.level }] ${ logObject.message }`
+        console.log(message);
+    } else {
+        console.log(JSON.stringify(logObject));
+    }
+}

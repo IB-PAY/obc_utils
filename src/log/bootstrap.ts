@@ -1,7 +1,6 @@
 import { env } from 'process';
 import * as Sentry from '@sentry/node';
-
-export let allowRemoteLogStorage = env.REMOTE_ERROR_LOG_STORAGE === 'true';
+import { allowRemoteLogStorage } from './config';
 let sentryAddress = env.SENTRY_URL;
 
 export function loggerBootstrap() {
@@ -13,8 +12,8 @@ export function loggerBootstrap() {
         } else {
             console.log("[INFO] Sentry Address is not set. Sentry will not be enabled.");
         }
-        console.log("[INFO] Remote debuging <Sentry> Enabled");
+        console.log("[INFO] Remote debugging <Sentry> Enabled");
     } else {
-        console.log("[INFO] Remote debuging <Sentry> Disabled");
+        console.log("[INFO] Remote debugging <Sentry> Disabled");
     }
 }
