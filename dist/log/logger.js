@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Error = exports.ErrorRequestMeta = exports.Debug = exports.DebugRequestMeta = exports.Info = exports.InfoRequestMeta = exports.loggingOptions = void 0;
+exports.Error = exports.Debug = exports.Info = exports.RequestMeta = exports.loggingOptions = void 0;
 const os_1 = require("os");
 const Sentry = require("@sentry/node");
 const bootstrap_1 = require("./bootstrap");
@@ -9,9 +9,9 @@ const config_1 = require("./config");
 class loggingOptions {
 }
 exports.loggingOptions = loggingOptions;
-class InfoRequestMeta {
+class RequestMeta {
 }
-exports.InfoRequestMeta = InfoRequestMeta;
+exports.RequestMeta = RequestMeta;
 function Info(message, meta) {
     const jsonError = {
         level: "INFO",
@@ -25,9 +25,6 @@ function Info(message, meta) {
     logging(jsonError);
 }
 exports.Info = Info;
-class DebugRequestMeta {
-}
-exports.DebugRequestMeta = DebugRequestMeta;
 function Debug(message, debugValues, meta) {
     let debugPayload = {
         level: "DEBUG",
@@ -41,9 +38,6 @@ function Debug(message, debugValues, meta) {
     logging(debugPayload);
 }
 exports.Debug = Debug;
-class ErrorRequestMeta {
-}
-exports.ErrorRequestMeta = ErrorRequestMeta;
 function Error(message, errorOptions, meta) {
     const jsonError = Object.assign(Object.assign({ level: "ERROR", TID: (meta === null || meta === void 0 ? void 0 : meta.TID) || (errorOptions === null || errorOptions === void 0 ? void 0 : errorOptions.TID), message }, errorOptions), { meta, os: (0, os_1.hostname)(), os_release: (0, os_1.release)(), date: new Date().toISOString() });
     logging(jsonError);

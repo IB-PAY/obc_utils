@@ -7,23 +7,13 @@ export declare class loggingOptions {
     stack?: any;
     date?: string;
 }
-export declare class InfoRequestMeta {
-    TID: string;
-    date?: Date;
-}
-export declare function Info<T>(message: string, meta?: Partial<InfoRequestMeta & T>): void;
-export declare class DebugRequestMeta {
+export declare class RequestMeta {
     TID: string;
     date?: string;
-    tracer: any;
+    tracer?: any;
 }
-export declare function Debug<T>(message: string, debugValues: any, meta?: Partial<DebugRequestMeta & T>): void;
-export declare class ErrorRequestMeta {
-    TID: string;
-    className?: string;
-    func?: string;
-    date?: Date;
-}
+export declare function Info<T>(message: string, meta?: Partial<RequestMeta & T>): void;
+export declare function Debug<T>(message: string, debugValues: any, meta?: Partial<RequestMeta & T>): void;
 export declare function Error<T>(message: string, errorOptions: Partial<loggingOptions & {
     error: any;
-}>, meta?: Partial<ErrorRequestMeta & T>): void;
+}>, meta?: Partial<RequestMeta & T>): void;

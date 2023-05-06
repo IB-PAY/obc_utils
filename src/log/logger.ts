@@ -8,7 +8,7 @@ loggerBootstrap()
 export class loggingOptions {
     TID?: string;
     class?: string;
-	function?: string;
+    function?: string;
     path?: string;
     input?: any;
     stack?: any;
@@ -25,13 +25,14 @@ interface payload {
     meta?: any;
 }
 
-export class InfoRequestMeta {
-	TID: string;
-    date?: Date
+export class RequestMeta {
+    TID: string;
+    date?: string;
+    tracer?: any;
 }
 
-export function Info<T>(message: string, meta?: Partial<InfoRequestMeta & T>) {
-    const jsonError: payload | loggingOptions | Partial<DebugRequestMeta & T> = {
+export function Info<T>(message: string, meta?: Partial<RequestMeta & T>) {
+    const jsonError: payload | loggingOptions | Partial<RequestMeta & T> = {
         level: "INFO",
         TID: meta?.TID,
         message,
@@ -41,12 +42,6 @@ export function Info<T>(message: string, meta?: Partial<InfoRequestMeta & T>) {
         date: new Date().toISOString()
     };
     logging(jsonError)
-}
-
-export class DebugRequestMeta {
-	TID: string;
-    date?: string;
-    tracer: any;
 }
 
 /**
@@ -66,8 +61,8 @@ export class DebugRequestMeta {
  *      tracer: new SentrySpan()
  *  } )
  */
-export function Debug<T>(message: string, debugValues: any, meta?: Partial<DebugRequestMeta & T>) {
-    let debugPayload: payload | Partial<DebugRequestMeta & T> | { debug: any } = {
+export function Debug<T>(message: string, debugValues: any, meta?: Partial<RequestMeta & T>) {
+    let debugPayload: payload | Partial<RequestMeta & T> | { debug: any } = {
         level: "DEBUG",
         TID: meta?.TID || debugValues?.TID,
         message,
@@ -77,13 +72,6 @@ export function Debug<T>(message: string, debugValues: any, meta?: Partial<Debug
         date: new Date().toISOString()
     }
     logging(debugPayload)
-}
-
-export class ErrorRequestMeta {
-	TID: string;
-    className?: string;
-    func?: string;
-    date?: Date
 }
 
 /**
@@ -104,8 +92,8 @@ export class ErrorRequestMeta {
  *      tracer: new SentrySpan()
  *  } )
  */
-export function Error<T>(message: string, errorOptions: Partial<loggingOptions & {error: any}>, meta?: Partial<ErrorRequestMeta & T>) {
-    const jsonError: payload | loggingOptions | Partial<DebugRequestMeta & T> = {
+export function Error<T>(message: string, errorOptions: Partial<loggingOptions & { error: any }>, meta?: Partial<RequestMeta & T>) {
+    const jsonError: payload | loggingOptions | Partial<RequestMeta & T> = {
         level: "ERROR",
         TID: meta?.TID || errorOptions?.TID,
         message,
@@ -119,11 +107,11 @@ export function Error<T>(message: string, errorOptions: Partial<loggingOptions &
 }
 
 function logging(logObject: any) {
-    if ( allowRemoteLogStorage ) {    
+    if (allowRemoteLogStorage) {
         Sentry.captureMessage(JSON.stringify(logObject));
     }
-    if ( logFormat !== 'json' ) {
-        let message = `[${ logObject.level }] ${ logObject.message }`
+    if (logFormat !== 'json') {
+        let message = `[${logObject.level}] ${logObject.message}`
         console.log(message);
     } else {
         console.log(JSON.stringify(logObject));
