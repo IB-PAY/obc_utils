@@ -58,7 +58,7 @@ export function Info<T>(message: string, meta?: Partial<RequestMeta & T>) {
  *      path: "src/service/payment.ts",
  *  }, {
  *      TID: "00607dee-ebda-11ed-a42c-1fdfc490efd3",
- *      tracer: new SentrySpan()
+ *      tracer: new SentrySpan() 
  *  } )
  */
 export function Debug<T>(message: string, debugValues: any, meta?: Partial<RequestMeta & T>) {
